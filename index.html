@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <style>
+    .cont {
+      display: grid;
+      margin-top: 10px;
+      justify-content: center;
+      border-radius: 6px;
+      border : 2px solid black;
+
+    }
+    #Cont {
+    align-items: start;  
+    border-radius: 2px;
+    border : 2px solid black;
+    }
+    #im {
+      max-width: 100%;
+      height: auto;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="cont" >
+    <img id="im" alt="random image" width="100%"/>
+    <div id="Cont" width="80%"></div>
+   <Button>Download</Button>
+  </div>
+
+ 
+  <script>
+    const myDiv = document.getElementById("Cont");
+    const myimg = document.getElementById("im");
+    fetch("https://api.quotable.io/random")
+      .then(response => response.json())
+      .then(data => {
+        myDiv.innerHTML = data.content;
+      })
+      .catch(error => {
+        console.error(error);
+        myDiv.innerHTML = "Error getting random quote";
+      });
+
+    let imgurl;
+    fetch("https://picsum.photos/200/300")
+      .then(response => {
+        if (response.ok) {
+          return response.blob();
+        }
+        throw new Error("Network response was not ok.");
+      })
+      .then(data => {
+        imgurl = URL.createObjectURL(data);
+        myimg.setAttribute("src", imgurl);
+      })
+      .catch(error => {
+        console.error(error);
+        myimg.setAttribute("src", "https://via.placeholder.com/300");
+      });
+  </script>
+</body>
+
+</html>
